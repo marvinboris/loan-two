@@ -1,0 +1,8 @@
+{
+  "name": "@cfafrica/admin",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "vercel-build": "cd $PROJECT_ROOT && npx nx build admin --prod"
+  }
+}

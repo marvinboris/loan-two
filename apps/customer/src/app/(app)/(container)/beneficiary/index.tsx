@@ -1,0 +1,124 @@
+import { useApi, useAuth, useTitle } from '@cfafrica/hooks';
+import {
+  // Button,
+  // Form,
+  // PhoneNumberInput,
+  // Section,
+  // Select,
+  // toastShow,
+  Typography,
+} from '@cfafrica/ui';
+import { formatPhoneNumber } from '@cfafrica/utils';
+// import { router } from 'expo-router';
+// import { Formik } from 'formik';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { RefreshControl, ScrollView } from 'react-native';
+// import { ArrowDownTrayIcon } from 'react-native-heroicons/outline';
+// import z from 'zod';
+// import { toFormikValidate } from 'zod-formik-adapter';
+// import { beneficiaryService } from '../../../../services';
+
+export default function Page() {
+  const { t } = useTranslation();
+
+  // const { user } = useAuth();
+  useTitle(t('beneficiary.title'));
+
+  const {
+    data: account,
+    loading,
+    refetch,
+  } = useApi<string>('/customer/beneficiary');
+
+  // const initialValues = {
+  //   account: '',
+  //   provider: '',
+  // };
+
+  // const Schema = React.useMemo(
+  //   () =>
+  //     z.object({
+  //       account: z.string().nonempty(),
+  //       provider: z.string().nonempty(),
+  //     }),
+  //   []
+  // );
+
+  return (
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={loading} onRefresh={refetch} />
+      }
+    >
+      {account ? (
+        <Typography>
+          {t('beneficiary.current_account')}{' '}
+          <Typography family="BOLD" color="primary">
+            {formatPhoneNumber(account)}
+          </Typography>
+        </Typography>
+      ) : null}
+
+      {/* <Section loading={loading} subtitleText={t('beneficiary.subtitle')}>
+        <Formik
+          initialValues={initialValues}
+          validate={toFormikValidate(Schema)}
+          onSubmit={async (data) => {
+            const result = await beneficiaryService.submit({
+              ...data,
+              mobile: user.mobile,
+            });
+            if (result.success) {
+              router.navigate({
+                pathname: '/beneficiary/verify',
+                params: { account: data.account },
+              });
+              toastShow({ type: 'success', text: result.message });
+            }
+          }}
+        >
+          {({
+            handleChange,
+            handleSubmit,
+            values,
+            dirty,
+            isValid,
+            isSubmitting,
+          }) => (
+            <Form>
+              <PhoneNumberInput
+                id="account"
+                name="account"
+                value={values.account}
+                label={t('beneficiary.account')}
+                onChange={handleChange('account')}
+              />
+
+              <Select
+                id="provider"
+                name="provider"
+                value={values.provider}
+                onChange={handleChange('provider')}
+                placeholder={t('beneficiary.provider.placeholder')}
+                options={{
+                  mtn: t('beneficiary.provider.mtn'),
+                  orange: t('beneficiary.provider.orange'),
+                }}
+              />
+
+              <Button
+                iconRight
+                loading={isSubmitting}
+                icon={ArrowDownTrayIcon}
+                title={t('beneficiary.save')}
+                disabled={!(dirty && isValid)}
+                onPress={() => handleSubmit()}
+              />
+            </Form>
+          )}
+        </Formik>
+      </Section> */}
+    </ScrollView>
+  );
+}

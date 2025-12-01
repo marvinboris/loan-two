@@ -1,0 +1,91 @@
+import { SubmitInput, VerifyInput } from './interfaces';
+import { supabase } from '../../../../lib';
+import { generateVerificationCode, sendSms } from '../../../../utils';
+
+export const beneficiaryService = {
+  async submit(input: SubmitInput) {
+    const { mobile, customerId } = input;
+
+    // Nettoyage du code de vérification
+    await supabase
+      .from('customers')
+      .update({
+        account: '237 ' + mobile.replace('+', '').substring(3),
+      })
+      .eq('id', customerId);
+
+    return { success: false, message: 'Forbidden operation' };
+
+    // const { verificationCode, codeExpiresAt } = generateVerificationCode();
+
+    // const { error } = await supabase
+    //   .from('customers')
+    //   .update({
+    //     verification_code: +verificationCode,
+    //     verification_code_expires: codeExpiresAt.toISOString(),
+    //   })
+    //   .eq('id', input.customerId);
+
+    // if (error)
+    //   return { success: false, message: 'Failed to send verification code' };
+
+    // // Envoi du code
+    // const message = `Your verification code is : ${verificationCode}`;
+    // const whatsappSent = await sendSms(input.mobile, message);
+
+    // if (!whatsappSent) {
+    //   return {
+    //     success: false,
+    //     message: 'Message failed to send',
+    //   };
+    // }
+
+    // return {
+    //   success: true,
+    //   message: 'Verification code sent successfully',
+    // };
+  },
+
+  async verify(input: VerifyInput) {
+    const { account, code, mobile } = input;
+
+    try {
+      // Vérification du code
+      const { data: customer, error } = await supabase
+        .from('customers')
+        .select('*')
+        .in('mobile', [mobile, mobile.substring(1)])
+        .eq('verification_code', +code)
+        .gt('verification_code_expires', new Date().toISOString())
+        .single();
+
+      if (!customer || error) {
+        return {
+          success: false,
+          message: 'Invalid or expired verification code',
+        };
+      }
+
+      // Nettoyage du code de vérification
+      await supabase
+        .from('customers')
+        .update({
+          account: account,
+          verification_code: null,
+          verification_code_expires: null,
+        })
+        .eq('id', customer.id);
+
+      return {
+        success: true,
+        message: 'Beneficiary account updated successfully',
+      };
+    } catch (error) {
+      console.error('Error in verify:', error);
+      return {
+        success: false,
+        message: 'Invalid or expired verification code',
+      };
+    }
+  },
+};

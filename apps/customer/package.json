@@ -1,0 +1,37 @@
+{
+  "name": "customer",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "eas-build-post-install": "cd ../../ && node tools/scripts/eas-build-post-install.mjs . apps/customer",
+    "prebuild": "expo prebuild",
+    "android": "pnpm prebuild && expo run:android",
+    "android-prev": "dotenv -c -- eas build -p android --profile preview --local",
+    "android-prod": "eas build -p android",
+    "ios": "expo run:ios"
+  },
+  "dependencies": {
+    "@legendapp/state": "*",
+    "@react-native-async-storage/async-storage": "*",
+    "@react-native-community/datetimepicker": "*",
+    "expo": "*",
+    "expo-asset": "*",
+    "expo-constants": "*",
+    "expo-contacts": "*",
+    "expo-dev-client": "*",
+    "expo-image-picker": "*",
+    "expo-font": "*",
+    "expo-linking": "*",
+    "expo-router": "*",
+    "expo-sharing": "*",
+    "expo-status-bar": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-native": "*",
+    "react-native-gesture-handler": "*",
+    "react-native-reanimated": "*",
+    "react-native-safe-area-context": "*",
+    "react-native-screens": "*",
+    "react-native-svg": "*"
+  }
+}
