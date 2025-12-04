@@ -7,6 +7,7 @@ export interface KycValidationInput {
 export interface BorrowValidationInput {
   id: number;
   validated: boolean;
+  externalId?: string;
   reason?: string;
 }
 

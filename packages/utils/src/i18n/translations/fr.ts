@@ -96,7 +96,7 @@ export const fr = {
     stuck: 'Coincé et besoin de faire un petit paiement mobile rapide ?',
     borrow: 'Emprunter maintenant',
     history: 'Historique',
-    info: "Les remboursements se font toujours via l'application",
+    info: "Les remboursements se font toujours avec le code marchand #150*14*659426218*293486*amount#",
     customer_service: {
       title: 'Infos du service client',
       email: 'E-mail',

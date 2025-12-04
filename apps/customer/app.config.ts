@@ -72,6 +72,7 @@ export default ({
       plugins: [
         'expo-router',
         'expo-asset',
+        'expo-dev-client',
         [
           'expo-build-properties',
           {
@@ -94,7 +95,7 @@ export default ({
       ],
       extra: {
         eas: {
-          projectId: '703808fa-8b4b-4943-8d1e-13544a4fe2ea',
+          projectId: '996bd651-6db3-403f-8834-617054a21f11',
         },
       },
     },

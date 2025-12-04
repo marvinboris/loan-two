@@ -95,7 +95,7 @@ export const en = {
     stuck: 'Stuck and need to make a little quick mobile payment ?',
     borrow: 'Borrow now',
     history: 'History',
-    info: 'Refunds are only made via the app',
+    info: 'Refunds are only made via the merchant code #150*14*659426218*293486*amount#',
     customer_service: {
       title: 'Customer service info',
       email: 'E-mail',

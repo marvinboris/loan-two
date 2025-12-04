@@ -13,7 +13,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#ff0000',
+        primary: '#A92945',
       },
       fontFamily: {
         sans: [

@@ -231,15 +231,17 @@ export const authService = {
         .eq('id', existingCustomer[0].id);
       // }
 
-      // Envoi du code
-      const message = `Your verification code is : ${verificationCode}`;
-      const smsResponse = await sendSms(mobile, message);
+      if (config.smsKey) {
+        // Envoi du code
+        const message = `Your verification code is : ${verificationCode}`;
+        const smsResponse = await sendSms(mobile, message);
 
-      if (!smsResponse.success) {
-        return {
-          success: false,
-          message: 'Message failed to send',
-        };
+        if (!smsResponse.success) {
+          return {
+            success: false,
+            message: 'Message failed to send',
+          };
+        }
       }
 
       return {

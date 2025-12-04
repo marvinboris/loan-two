@@ -114,10 +114,12 @@ export const validationService = {
 
     let error;
     if (input.validated) {
-      const externalId = await payCustomer(
-        loan.customers.account,
-        loan.loan_amount
-      );
+      const {externalId} = input
+
+      // const externalId = await payCustomer(
+      //   loan.customers.account,
+      //   loan.loan_amount
+      // );
 
       if (externalId) {
         const updated = await supabase

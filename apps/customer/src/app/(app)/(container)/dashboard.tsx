@@ -4,8 +4,8 @@ import { Button, Loan, Section, Typography } from '@cfafrica/ui';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { RefreshControl, ScrollView, View } from 'react-native';
-import { repaymentService } from '../../../services';
 import { ExclamationCircleIcon } from 'react-native-heroicons/outline';
+import { repaymentService } from '../../../services';
 
 export default function Page() {
   const { t } = useTranslation();
@@ -131,12 +131,12 @@ export default function Page() {
           <View>
             <Typography>
               {t('dashboard.customer_service.email')}:{' '}
-              <Typography>cfafrica00@gmail.com</Typography>
+              <Typography>cfafricafinance@gmail.com</Typography>
             </Typography>
 
             <Typography>
               {t('dashboard.customer_service.phone')}:{' '}
-              <Typography>+237693593513</Typography>
+              <Typography>+237689292442</Typography>
             </Typography>
           </View>
         </View>

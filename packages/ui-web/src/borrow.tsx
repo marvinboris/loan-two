@@ -2,7 +2,7 @@ import { Formik } from 'formik';
 import React from 'react';
 import { Button } from './buttons';
 import { Card } from './card';
-import { Switch, TextArea } from './form';
+import { Input, Switch, TextArea } from './form';
 import { Modal } from './modal';
 import { toastShow } from './toast';
 
@@ -10,6 +10,7 @@ export type BorrowFormValues = {
   id: number;
   validated: boolean;
   reason?: string;
+  externalId?: string;
 };
 
 export type BorrowProps = {
@@ -115,11 +116,19 @@ function BorrowForm({
               onChange={(value) => setFieldValue('validated', value)}
             />
 
-            <TextArea
-              label="Reason for denying"
-              value={values.reason}
-              onChange={handleChange('reason')}
-            />
+            {values.validated ? (
+              <Input
+                label="Transaction ID"
+                value={values.externalId}
+                onChange={handleChange('externalId')}
+              />
+            ) : (
+              <TextArea
+                label="Reason for denying"
+                value={values.reason}
+                onChange={handleChange('reason')}
+              />
+            )}
 
             <Button loading={isSubmitting}>Submit</Button>
           </form>

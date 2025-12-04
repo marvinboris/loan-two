@@ -5,13 +5,11 @@ import moment from 'moment';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
+
 import { AmountLine } from '../amount-line';
-import { Button } from '../button';
 import { Card } from '../card';
 import { Form } from '../form';
 import { Modal } from '../modal';
-import { NumberInput } from '../number-input';
-import { Select } from '../select';
 import { toastShow } from '../toast';
 import { Typography } from '../typography';
 
@@ -19,7 +17,7 @@ export type LoanFormValues = {
   id: number;
 
   amount: number;
-  mode: 'app' | 'merchant-code';
+  // mode: 'app' | 'merchant-code';
 };
 
 export type LoanProps = LoanType & {
@@ -102,7 +100,7 @@ function LoanForm({
   const initialValues: LoanFormValues = {
     id: values.id,
     amount: 0,
-    mode: 'app',
+    // mode: 'app',
   };
 
   const maxAmount = React.useMemo(
@@ -137,7 +135,7 @@ function LoanForm({
           isSubmitting,
         }) => (
           <Form>
-            <Select
+            {/* <Select
               id="mode"
               name="mode"
               value={values.mode}
@@ -148,31 +146,31 @@ function LoanForm({
                 app: 'App',
                 'merchant-code': t('ui.loan.merchant_code'),
               }}
-            />
+            /> */}
 
-            {values.mode === 'merchant-code' ? (
+            {/* {values.mode === 'merchant-code' ? ( */}
+            <View>
+              <Typography>{t('ui.loan.merchant_mode')}:</Typography>
               <View>
-                <Typography>{t('ui.loan.merchant_mode')}:</Typography>
-                <View>
-                  <Typography>
-                    - (Orange){' '}
-                    <Typography family="SEMIBOLD" color="primary">
-                      #150*47*842121*{t('ui.loan.amount')}#
-                    </Typography>{' '}
-                    - CFAfrica 7
-                  </Typography>
-                </View>
-                <View>
-                  <Typography>
-                    - (MTN){' '}
-                    <Typography family="SEMIBOLD" color="primary">
-                      651801723
-                    </Typography>{' '}
-                    - Murielle Larissa KOUAMAHO
-                  </Typography>
-                </View>
+                <Typography>
+                  - (Orange){' '}
+                  <Typography family="SEMIBOLD" color="primary">
+                    #150*14*659426218*293486*{t('ui.loan.amount')}#
+                  </Typography>{' '}
+                  - ETS Rabiatou
+                </Typography>
               </View>
-            ) : (
+              <View>
+                <Typography>
+                  - (MTN){' '}
+                  <Typography family="SEMIBOLD" color="primary">
+                    *126# - 1 - 1 - 651402523 - {t('ui.loan.amount')} - ref
+                  </Typography>{' '}
+                  - ALBERTINE BLANCHE MAMERT
+                </Typography>
+              </View>
+            </View>
+            {/* ) : (
               <>
                 <NumberInput
                   min={0}
@@ -191,7 +189,7 @@ function LoanForm({
                   onPress={() => handleSubmit()}
                 />
               </>
-            )}
+            )} */}
           </Form>
         )}
       </Formik>
