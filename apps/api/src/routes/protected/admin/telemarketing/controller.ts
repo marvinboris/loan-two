@@ -284,7 +284,7 @@ export class TelemarketingController {
       let query = supabase.from('customers').select(
         `
           *,
-          telemarketers:telemarketer_id!inner (name)
+          telemarketers:telemarketer_id (name)
         `,
         { count: 'exact' }
       );
@@ -418,7 +418,7 @@ export class TelemarketingController {
         .select(
           `
           *,
-          telemarketers:telemarketer_id!inner (name)
+          telemarketers:telemarketer_id (name)
         `,
           { count: 'exact' }
         )
