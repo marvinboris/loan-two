@@ -12,6 +12,7 @@ export * from './manual-assignment';
 export * from './modal';
 export * from './pagination';
 export * from './release';
+export * from './repay-borrow';
 export * from './table';
 export * from './toast';
 export * from './unblock-client';

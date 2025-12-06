@@ -15,6 +15,12 @@ export interface BorrowCancellationInput {
   id: number;
 }
 
+export interface BorrowRepaymentInput {
+  id: number;
+  amount: number;
+  ref: string;
+}
+
 export interface UnblockClientInput {
   id: number;
 }

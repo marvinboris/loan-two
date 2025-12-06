@@ -113,7 +113,12 @@ export default function Page() {
             <ExclamationCircleIcon color={theme.warning} />
           </View>
 
-          <Typography size="xl" color="warning" family="BOLD">
+          <Typography
+            size="lg"
+            color="warning"
+            family="BOLD"
+            style={{ flex: 1 }}
+          >
             {t('dashboard.info')}
           </Typography>
         </View>

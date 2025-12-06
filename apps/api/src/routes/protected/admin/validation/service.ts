@@ -1,6 +1,13 @@
-import { KycStatus, LoanStatus } from '../../../../types';
+import {
+  CustomerType,
+  KycStatus,
+  Loan,
+  LoanStatus,
+  TradingStatus,
+} from '../../../../types';
 import {
   BorrowCancellationInput,
+  BorrowRepaymentInput,
   BorrowValidationInput,
   KycValidationInput,
   UnblockClientInput,
@@ -8,7 +15,7 @@ import {
 import moment from 'moment';
 import { config } from '../../../../config';
 import { supabase } from '../../../../lib';
-import { payCustomer, sendSms } from '../../../../utils';
+import { calculatePenalty, payCustomer, sendSms } from '../../../../utils';
 
 export const validationService = {
   async kycValidation(input: KycValidationInput) {
@@ -41,20 +48,22 @@ export const validationService = {
         message: 'KYC validation response not submitted',
       };
 
-    let message;
-    if (input.validated) message = 'Your KYC request has been validated.';
-    else
-      message =
-        [
-          'Your KYC application has been denied',
-          input.reason
-            ? 'for the following reason: ' + input.reason
-            : undefined,
-        ]
-          .filter(Boolean)
-          .join(' ') + '.';
+    if (config.smsKey) {
+      let message;
+      if (input.validated) message = 'Your KYC request has been validated.';
+      else
+        message =
+          [
+            'Your KYC application has been denied',
+            input.reason
+              ? 'for the following reason: ' + input.reason
+              : undefined,
+          ]
+            .filter(Boolean)
+            .join(' ') + '.';
 
-    await sendSms(kyc.customers.mobile, message);
+      await sendSms(kyc.customers.mobile, message);
+    }
 
     return {
       success: true,
@@ -114,7 +123,7 @@ export const validationService = {
 
     let error;
     if (input.validated) {
-      const {externalId} = input
+      const { externalId } = input;
 
       // const externalId = await payCustomer(
       //   loan.customers.account,
@@ -146,20 +155,22 @@ export const validationService = {
         message: 'Borrow validation response not submitted',
       };
 
-    let message;
-    if (input.validated) message = 'Your borrow request has been validated.';
-    else
-      message =
-        [
-          'Your borrow application has been denied',
-          input.reason
-            ? 'for the following reason: ' + input.reason
-            : undefined,
-        ]
-          .filter(Boolean)
-          .join(' ') + '.';
+    if (config.smsKey) {
+      let message;
+      if (input.validated) message = 'Your borrow request has been validated.';
+      else
+        message =
+          [
+            'Your borrow application has been denied',
+            input.reason
+              ? 'for the following reason: ' + input.reason
+              : undefined,
+          ]
+            .filter(Boolean)
+            .join(' ') + '.';
 
-    await sendSms(loan.customers.mobile, message);
+      await sendSms(loan.customers.mobile, message);
+    }
 
     return {
       success: true,
@@ -180,6 +191,87 @@ export const validationService = {
         success: false,
         message: 'Borrow cancellation response not submitted',
       };
+
+    return {
+      success: true,
+      message: 'Borrow cancellation response submitted successfully',
+    };
+  },
+
+  async borrowRepayment(input: BorrowRepaymentInput) {
+    const loan = await supabase
+      .from('loans')
+      .select('*')
+      .eq('id', input.id)
+      .single();
+    const customerId = loan.data.customer_id;
+
+    if (loan.error || !loan.data)
+      return { success: false, message: 'Borrow not found' };
+
+    const customer = await supabase
+      .from('customers')
+      .select()
+      .eq('id', customerId)
+      .single();
+
+    if (customer.error || !customer.data)
+      return { success: false, message: 'Borrow customer not found' };
+
+    const { count: total } = await supabase
+      .from('repayments')
+      .select('id', { count: 'exact' });
+
+    const { data, error } = await supabase
+      .from('repayments')
+      .insert({
+        creation_time: new Date().toISOString(),
+        loan_id: input.id,
+        repayment_amount: input.amount,
+        repayment_number: 'REP' + total,
+        trading_status: TradingStatus.SUCCESS,
+        real_amount: input.amount,
+        payment_channel: 'Mobile',
+        payment_company_serial_number: input.ref,
+      })
+      .select()
+      .single();
+
+    if (error)
+      return {
+        success: false,
+        message: 'Borrow repayment response not submitted',
+      };
+
+    const penalty = calculatePenalty(loan.data as Loan);
+
+    const amountRepaid = (loan.data.amount_repaid || 0) + input.amount;
+
+    const fullyRepaid = loan.data.total_repayment + penalty === amountRepaid;
+
+    await supabase
+      .from('loans')
+      .update({
+        amount_repaid: amountRepaid,
+        ...(fullyRepaid
+          ? {
+              loan_status: LoanStatus.REPAID,
+            }
+          : {}),
+      })
+      .eq('id', input.id);
+
+    await supabase
+      .from('customers')
+      .update({
+        prev_repayment_time: new Date().toISOString(),
+        ...(fullyRepaid && customer.data.type === 'new'
+          ? {
+              type: CustomerType.OLD,
+            }
+          : {}),
+      })
+      .eq('id', customerId);
 
     return {
       success: true,

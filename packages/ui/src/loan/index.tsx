@@ -155,7 +155,7 @@ function LoanForm({
                 <Typography>
                   - (Orange){' '}
                   <Typography family="SEMIBOLD" color="primary">
-                    #150*14*659426218*293486*{t('ui.loan.amount')}#
+                    #150*14*293486*659426218*{t('ui.loan.amount')}#
                   </Typography>{' '}
                   - ETS Rabiatou
                 </Typography>

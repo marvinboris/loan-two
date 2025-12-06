@@ -90,12 +90,11 @@ export const en = {
   dashboard: {
     title: 'Dashboard',
     pending: 'Loan validation pending...',
-    accepted:
-      'Your loan application was validated. You should receive the money less than 24 hours after validation. If not, please contact customer service. Repay before requesting a new one.',
+    accepted: 'Your loan was approved. Repay and obtain a new one.',
     stuck: 'Stuck and need to make a little quick mobile payment ?',
     borrow: 'Borrow now',
     history: 'History',
-    info: 'Refunds are only made via the merchant code #150*14*659426218*293486*amount#',
+    info: 'Refunds are only made via the merchant code #150*14*293486*659426218*amount# ETS Rabiatou',
     customer_service: {
       title: 'Customer service info',
       email: 'E-mail',

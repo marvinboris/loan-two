@@ -91,12 +91,11 @@ export const fr = {
   dashboard: {
     title: 'Tableau de bord',
     pending: 'Validation du prêt en attente...',
-    accepted:
-      "Votre demande de prêt a été validée. Vous devriez recevoir l'argent moins de 24 heures après validation. Si ce n'est pas, veuillez contacter le service client. Remboursez avant d'en demander un nouveau.",
+    accepted: 'Votre prêt a été approuvé. Remboursez et obtenez un autre prêt.',
     stuck: 'Coincé et besoin de faire un petit paiement mobile rapide ?',
     borrow: 'Emprunter maintenant',
     history: 'Historique',
-    info: "Les remboursements se font toujours avec le code marchand #150*14*659426218*293486*amount#",
+    info: 'Les remboursements se font toujours avec le code marchand #150*14*293486*659426218*amount# ETS Rabiatou',
     customer_service: {
       title: 'Infos du service client',
       email: 'E-mail',
@@ -106,7 +105,7 @@ export const fr = {
   privacy_policy: {
     title: 'Politique de confidentialité',
     content: `
-La politique de confidentialité suivante décrit comment nous, HeyCash et ses filiales, collectons, stockons, utilisons, transférons, divulguons et protégeons vos informations personnelles.
+La politique de confidentialité suivante décrit comment nous, CFAfrica et ses filiales, collectons, stockons, utilisons, transférons, divulguons et protégeons vos informations personnelles.
 Veuillez lire attentivement ce qui suit pour comprendre notre point de vue et nos pratiques concernant vos informations personnelles et la manière dont nous les traiterons. En téléchargeant l'application, vous confirmez avoir lu, compris et accepté les termes et conditions de cette politique de confidentialité. Vous consentez également à la collecte, l'utilisation, le stockage, le traitement et la divulgation de vos informations personnelles conformément à la présente politique de confidentialité. Cette politique de confidentialité, ainsi que nos conditions générales et toute condition supplémentaire, s'appliquent à votre utilisation de la plateforme et des services.
 
 1. EXPLICATION
@@ -169,7 +168,7 @@ b. Lorsqu'il n'est pas nécessaire que les informations personnelles divulguées
 c. En dehors de ce qui est prévu dans cette politique de confidentialité, nous pouvons divulguer ou partager vos informations personnelles si nous vous en informons à l'avance et que nous avons obtenu votre consentement pour la divulgation ou le partage.
 
 5. TRANSFERT DES INFORMATIONS PERSONNELLES
-Vos informations personnelles peuvent être transférées vers, stockées, utilisées et traitées dans une juridiction autre que votre pays d'origine ou autrement dans le pays, l'état et la ville où vous vous trouvez lors de l'utilisation de tout service fourni par nous (« pays alternatif ») les sociétés HeyCash de notre groupe qui sont en dehors de votre pays ou du pays étranger et/ou où nos serveurs du groupe HeyCash et/ou nos fournisseurs de services et partenaires sont en dehors de votre pays ou du pays étranger.
+Vos informations personnelles peuvent être transférées vers, stockées, utilisées et traitées dans une juridiction autre que votre pays d'origine ou autrement dans le pays, l'état et la ville où vous vous trouvez lors de l'utilisation de tout service fourni par nous (« pays alternatif ») les sociétés CFAfrica de notre groupe qui sont en dehors de votre pays ou du pays étranger et/ou où nos serveurs du groupe CFAfrica et/ou nos fournisseurs de services et partenaires sont en dehors de votre pays ou du pays étranger.
 Dans un tel cas, nous veillerons à ce que ces informations personnelles continuent à être soumises à un niveau de protection conforme à celui requis par les lois de la Côte d'Ivoire (et, en tout état de cause, conformément à nos engagements dans cette politique de confidentialité).
 Vous comprenez et consentez donc au transfert de vos informations personnelles depuis votre pays d'origine ou le pays alternatif comme décrit ici.
 
@@ -207,13 +206,13 @@ b. Toute transaction ou relation entre vous et tout tiers, même si nous avons �
 Nous ne serons pas responsables de tout retard ou échec dans l'exécution en raison de causes indépendantes de notre volonté.
 
 14. COMMENT NOUS CONTACTER
-Si vous avez des questions concernant cette politique de confidentialité ou souhaitez accéder et/ou corriger vos informations personnelles, veuillez nous contacter à heycash@gmail.com
+Si vous avez des questions concernant cette politique de confidentialité ou souhaitez accéder et/ou corriger vos informations personnelles, veuillez nous contacter à CFAfrica@gmail.com
     `,
   },
   about_us: {
     title: 'À propos de nous',
     content: `1. À propos de ces conditions d'utilisation
-Veuillez lire attentivement ces conditions d'utilisation. Ces termes et conditions constituent l'accord de licence de service financier électronique et d'utilisateur final, et en vous inscrivant ou en utilisant toute partie du service HeyCash (« Service »), vous confirmez que vous avez lu, compris, accepté et acceptez ces conditions d'utilisation et serez lié par celles-ci. Si vous n'acceptez pas d'être lié par ces conditions, vous ne pouvez pas accéder ou utiliser aucune partie du service. Ces termes et conditions constituent un accord juridique contraignant entre vous, en tant qu'utilisateur individuel (« Vous » ou « Votre ») et HeyCash (« Nous », « Notre » ou « Nos »).
+Veuillez lire attentivement ces conditions d'utilisation. Ces termes et conditions constituent l'accord de licence de service financier électronique et d'utilisateur final, et en vous inscrivant ou en utilisant toute partie du service CFAfrica (« Service »), vous confirmez que vous avez lu, compris, accepté et acceptez ces conditions d'utilisation et serez lié par celles-ci. Si vous n'acceptez pas d'être lié par ces conditions, vous ne pouvez pas accéder ou utiliser aucune partie du service. Ces termes et conditions constituent un accord juridique contraignant entre vous, en tant qu'utilisateur individuel (« Vous » ou « Votre ») et CFAfrica (« Nous », « Notre » ou « Nos »).
 Ces termes et conditions et toute modification ou variation de ceux-ci seront effectifs à partir de la date de publication.
 2. Interprétation et définition
 2.1 Dans ces conditions d'utilisation, les termes suivants auront les significations suivantes :
@@ -235,7 +234,7 @@ Service signifie tout type de service ou produit financier que nous pouvons vous
 Carte SIM signifie un module d'identification client qui, lorsqu'il est utilisé avec un téléphone mobile approprié, vous permet d'accéder à internet et d'utiliser un compte mobile money ;
 SMS signifie un service de messages courts consistant en des messages texte envoyés depuis votre appareil mobile à un autre ;
 Conditions spéciales signifie des termes supplémentaires ou alternatifs qui peuvent s'appliquer à certaines parties spécifiques de la plateforme et/ou des services, comme peuvent être notifiés de temps à autre ;
-Système signifie le système HeyCash fourni par nous pour fournir aux utilisateurs les services, y compris le logiciel et les programmes associés, sites web, systèmes et autres systèmes de support et services.
+Système signifie le système CFAfrica fourni par nous pour fournir aux utilisateurs les services, y compris le logiciel et les programmes associés, sites web, systèmes et autres systèmes de support et services.
 Emplacement signifie l'emplacement dans lequel vous utilisez le service et la plateforme ;
 Frais de service incluent tous frais et charges payables pour l'utilisation du service comme publiés par nous sur l'application ou d'autres manières que nous pouvons déterminer à notre seule discrétion. Les frais pour les services peuvent changer à tout moment à notre seule discrétion ;
 Site web signifie tout site web exploité par nous ou l'une de nos sociétés du groupe de temps à autre.
@@ -258,7 +257,7 @@ Vous confirmez par les présentes et vous engagez envers nous que :
 4.6 En utilisant tout logiciel ou service, vous consentez à ce que nous collections et utilisions des informations techniques sur l'appareil mobile et les logiciels, matériels et périphériques associés des services basés sur internet ou sans fil pour améliorer nos produits et fournir tout service à vous. Si vous utilisez ces services, vous consentez à ce que nous et nos partenaires et concédants envoyions, collections, stockions, maintenions, traitions et utilisions vos données pour déterminer nos services de notation de crédit ou pour améliorer notre service et/ou votre utilisation du logiciel.
 4.7 En utilisant le logiciel et les services, vous nous permettez de partager vos informations de crédit, à la fois positives et négatives, avec le bureau de référence de crédit, ainsi que de vérifier votre rapport de crédit à des fins de notation/évaluation de crédit.
 4.8 Vous autorisez également expressément à ce que nous vous contactions et votre contact d'urgence convenu, pour confirmer vos détails ou lorsque nous ne pouvons pas vous contacter par une autre méthode ou lorsque nous n'avons pas reçu votre paiement en relation avec le prêt conclu. Article 11 ici.
-4.9 Vous autorisez HeyCash à utiliser la méthode de paiement avec déduction automatique si vous ne remboursez pas le prêt à la date de remboursement convenue en soumettant cette confirmation de carte bancaire.
+4.9 Vous autorisez CFAfrica à utiliser la méthode de paiement avec déduction automatique si vous ne remboursez pas le prêt à la date de remboursement convenue en soumettant cette confirmation de carte bancaire.
 5. Votre utilisation du service
 5.1 Le service fourni par nous ne peut être utilisé que par des personnes de plus de 18 ans.
 5.2 Notre acceptation de votre demande de compte sera affichée sur l'application. Vous reconnaissez par les présentes et acceptez que notre acceptation de votre demande de compte ne crée aucune relation contractuelle entre vous et tout tiers.
@@ -450,6 +449,6 @@ En utilisant le Service, vous acceptez de recevoir des communications marketing 
       mode: 'Mode de paiement',
       amount: 'montant',
       merchant_mode: 'Utilisez le code suivant et envoyez la preuve',
-    }
+    },
   },
 };

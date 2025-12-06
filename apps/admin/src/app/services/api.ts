@@ -5,6 +5,7 @@ import {
   KycFormValues,
   ManualAssignmentFormValues,
   ReleaseFormValues,
+  RepayBorrowFormValues,
   UnblockClientFormValues,
 } from '@cfafrica/ui-web';
 import { authState$, getHttpClient } from '@cfafrica/utils';
@@ -242,6 +243,16 @@ export const validationService = {
     const httpClient = getHttpClient();
     const result = await httpClient.post<Response>(
       '/admin/validation/borrow-cancellation',
+      credentials
+    );
+
+    return result;
+  },
+
+  async borrowRepayment(credentials: RepayBorrowFormValues) {
+    const httpClient = getHttpClient();
+    const result = await httpClient.post<Response>(
+      '/admin/validation/borrow-repayment',
       credentials
     );
 

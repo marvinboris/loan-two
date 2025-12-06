@@ -21,7 +21,17 @@ export class BorrowController {
 
       if (error) throw error;
 
+      const hasKyc = Boolean(data.length);
+
       const customer = data.at(0)?.customers;
+      if (!customer)
+        return res.json({
+          success: true,
+          hasKyc,
+          hasAccount: false,
+          minAmount: 10000,
+          maxAmount: 10000,
+        });
 
       const validAccount =
         '237 ' + customer.mobile.replace('+', '').substring(3);
@@ -46,7 +56,7 @@ export class BorrowController {
 
       res.json({
         success: true,
-        hasKyc: Boolean(data.length),
+        hasKyc,
         hasAccount: Boolean(account),
         minAmount: 10000,
         maxAmount: 10000 + 5000 * repaidLoans,

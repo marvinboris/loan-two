@@ -351,7 +351,7 @@ export class TelemarketingController {
       const kyc = await supabase
         .from('kyc')
         .select()
-        .eq('status', KycStatus.PENDING);
+        .eq('status', KycStatus.SUCCESS);
 
       if (kyc.error) throw kyc.error;
 

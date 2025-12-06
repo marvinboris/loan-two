@@ -4,6 +4,7 @@ import {
   CancelBorrow,
   Filter,
   Pagination,
+  RepayBorrow,
   Table,
   useBreadcrumb,
 } from '@cfafrica/ui-web';
@@ -19,6 +20,10 @@ type Item = {
   borrow?: {
     id: number;
     loan_amount: number;
+  };
+  repayBorrow?: {
+    id: number;
+    amount: number;
   };
   cancelBorrow?: {
     id: number;
@@ -140,6 +145,22 @@ export function ValidationBorrow() {
                   }}
                   onSubmit={async (data) => {
                     const result = await validationService.borrowValidation(
+                      data
+                    );
+                    if (result.success) refetch();
+                    return result;
+                  }}
+                />
+              ) : undefined}
+              {item.repayBorrow ? (
+                <RepayBorrow
+                  values={{
+                    ...item.repayBorrow,
+                    name: item.name,
+                    mobile: item.mobile,
+                  }}
+                  onSubmit={async (data) => {
+                    const result = await validationService.borrowCancellation(
                       data
                     );
                     if (result.success) refetch();

@@ -19,6 +19,10 @@ validationRouter.post(
   validationController.postBorrowCancellation
 );
 validationRouter.post(
+  '/borrow-repayment',
+  validationController.postBorrowRepayment
+);
+validationRouter.post(
   '/unblock-client',
   validationController.postUnblockClient
 );

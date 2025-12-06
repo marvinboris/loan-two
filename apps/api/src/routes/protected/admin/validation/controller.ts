@@ -1,10 +1,17 @@
-import { Kyc, KycStatus, Loan, LoanStatus } from '../../../../types';
+import {
+  Kyc,
+  KycStatus,
+  Loan,
+  LoanStatus,
+  TradingStatus,
+} from '../../../../types';
 import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 import { supabase } from '../../../../lib';
 import { filter } from '../../../../utils';
 import {
   BorrowCancellationInput,
+  BorrowRepaymentInput,
   BorrowValidationInput,
   KycValidationInput,
   UnblockClientInput,
@@ -247,29 +254,42 @@ export class ValidationController {
         );
 
         const items =
-          [...borrowCustomers, ...cancelBorrowCustomers].map((customer) => ({
-            id: customer.id,
-            mobile: customer.mobile,
-            name: customer.name,
-            prevRepaymentTime: customer.prev_repayment_time,
-            appName: customer.app_name,
-            followUpPerson: customer.telemarketers?.name,
-            // followUpPerson: customer.follow_up_person,
-            whetherApply: customer.whether_apply,
-            appTime: customer.app_time,
-            allocationTime: customer.allocation_time,
-            latestFollowUpTime: customer.latest_follow_up_time,
-            followUpResults: customer.follow_up_results,
-            descFollowUp: customer.desc_follow_up,
-            whetherAssigned: customer.whether_assigned,
-            telemarketer: customer.telemarketers?.name,
-            borrow: customer.loans.find(
-              (loan) => loan.loan_status === LoanStatus.PENDING
-            ),
-            cancelBorrow: customer.loans.find(
+          [...borrowCustomers, ...cancelBorrowCustomers].map((customer) => {
+            const cancelBorrow = customer.loans.find(
               (loan) => loan.loan_status === LoanStatus.ACCEPTED
-            ),
-          })) || [];
+            );
+
+            const repayBorrow = cancelBorrow
+              ? {
+                  ...cancelBorrow,
+                  amount:
+                    cancelBorrow.total_repayment - cancelBorrow.amount_repaid,
+                }
+              : undefined;
+
+            return {
+              id: customer.id,
+              mobile: customer.mobile,
+              name: customer.name,
+              prevRepaymentTime: customer.prev_repayment_time,
+              appName: customer.app_name,
+              followUpPerson: customer.telemarketers?.name,
+              // followUpPerson: customer.follow_up_person,
+              whetherApply: customer.whether_apply,
+              appTime: customer.app_time,
+              allocationTime: customer.allocation_time,
+              latestFollowUpTime: customer.latest_follow_up_time,
+              followUpResults: customer.follow_up_results,
+              descFollowUp: customer.desc_follow_up,
+              whetherAssigned: customer.whether_assigned,
+              telemarketer: customer.telemarketers?.name,
+              borrow: customer.loans.find(
+                (loan) => loan.loan_status === LoanStatus.PENDING
+              ),
+              repayBorrow,
+              cancelBorrow,
+            };
+          }) || [];
 
         return { items, total };
       };
@@ -474,6 +494,23 @@ export class ValidationController {
       const input: BorrowCancellationInput = req.body;
 
       const result = await validationService.borrowCancellation(input);
+
+      res.status(result.success ? 200 : 400).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async postBorrowRepayment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const input: BorrowRepaymentInput = req.body;
+
+      const result = await validationService.borrowRepayment(input);
 
       res.status(result.success ? 200 : 400).json(result);
     } catch (error) {
