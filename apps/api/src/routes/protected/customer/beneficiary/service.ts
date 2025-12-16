@@ -1,6 +1,5 @@
 import { SubmitInput, VerifyInput } from './interfaces';
 import { supabase } from '../../../../lib';
-import { generateVerificationCode, sendSms } from '../../../../utils';
 
 export const beneficiaryService = {
   async submit(input: SubmitInput) {

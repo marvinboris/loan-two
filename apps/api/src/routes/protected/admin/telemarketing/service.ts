@@ -73,22 +73,20 @@ export const telemarketingService = {
         message: 'KYC validation response not submitted',
       };
 
-    if (config.smsKey) {
-      let message;
-      if (input.validated) message = 'Your KYC request has been validated.';
-      else
-        message =
-          [
-            'Your KYC application has been denied',
-            input.reason
-              ? 'for the following reason: ' + input.reason
-              : undefined,
-          ]
-            .filter(Boolean)
-            .join(' ') + '.';
+    let message;
+    if (input.validated) message = 'Your KYC request has been validated.';
+    else
+      message =
+        [
+          'Your KYC application has been denied',
+          input.reason
+            ? 'for the following reason: ' + input.reason
+            : undefined,
+        ]
+          .filter(Boolean)
+          .join(' ') + '.';
 
-      await sendSms(kyc.customers.mobile, message);
-    }
+    await sendSms(kyc.customers.mobile, message);
 
     return {
       success: true,
@@ -125,22 +123,20 @@ export const telemarketingService = {
         message: 'Borrow validation response not submitted',
       };
 
-    if (config.smsKey) {
-      let message;
-      if (input.validated) message = 'Your borrow request has been validated.';
-      else
-        message =
-          [
-            'Your borrow application has been denied',
-            input.reason
-              ? 'for the following reason: ' + input.reason
-              : undefined,
-          ]
-            .filter(Boolean)
-            .join(' ') + '.';
+    let message: string;
+    if (input.validated) message = 'Your borrow request has been validated.';
+    else
+      message =
+        [
+          'Your borrow application has been denied',
+          input.reason
+            ? 'for the following reason: ' + input.reason
+            : undefined,
+        ]
+          .filter(Boolean)
+          .join(' ') + '.';
 
-      await sendSms(loan.customers.mobile, message);
-    }
+    await sendSms(loan.customers.mobile, message);
 
     return {
       success: true,

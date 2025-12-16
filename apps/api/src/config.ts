@@ -12,6 +12,11 @@ export const config = {
 
   smsKey: process.env.SMS_KEY || '',
 
+  nexah: {
+    user: process.env.NEXAH_USER,
+    password: process.env.NEXAH_PASSWORD,
+  },
+
   twilio: {
     accountSid: process.env.TWILIO_ACCOUNT_SID,
     authToken: process.env.TWILIO_AUTH_TOKEN,
