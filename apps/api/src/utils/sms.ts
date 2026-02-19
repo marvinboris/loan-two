@@ -101,11 +101,15 @@ async function obit(
   }
 }
 
-async function nexah(mobile: string, message: string): Promise<SmsResponse> {
+async function nexah(
+  mobile: string,
+  originalMessage: string
+): Promise<SmsResponse> {
   const user = config.nexah.user;
   const password = config.nexah.password;
   const sender = 'CFAFRICA';
   const destination = encodeURIComponent(mobile);
+  const message = `${originalMessage} (${sender})`;
 
   const urlBase = `https://smsvas.com/bulk/public/index.php/api/v1/sendsms?user=${user}&password=${password}&senderid=${sender}&sms=${message}&mobiles=${destination}`;
 
@@ -114,7 +118,12 @@ async function nexah(mobile: string, message: string): Promise<SmsResponse> {
       headers: { Accept: 'application/json' },
     });
 
-    const { responsecode, responsemessage } = response.data;
+    if (config.nexah.test) console.error(response);
+
+    const { responsecode, responsedescription, responsemessage } =
+      response.data;
+
+    if (responsedescription === 'error') console.error(responsemessage);
 
     return { success: responsecode === 1, message: responsemessage };
   } catch (error) {

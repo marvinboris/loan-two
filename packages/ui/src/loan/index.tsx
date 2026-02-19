@@ -112,7 +112,7 @@ function LoanForm({
   );
 
   return (
-    <Modal show={show} setShow={setShow} title={t('ui.loan.repayment_time')}>
+    <Modal show={show} setShow={setShow} title={t('ui.loan.repayment')}>
       <Card size="sm" style={{ marginBottom: 8 }}>
         <AmountLine amount={maxAmount} label={t('ui.loan.repayment_amount')} />
       </Card>

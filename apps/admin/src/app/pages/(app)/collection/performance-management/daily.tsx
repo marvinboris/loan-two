@@ -1,6 +1,13 @@
-import { usePaginatedApi } from '@cfafrica/hooks';
-import { Filter, Pagination, Table, useBreadcrumb } from '@cfafrica/ui-web';
+import { useApi, usePaginatedApi } from '@cfafrica/hooks';
+import {
+  CollectionDailyPerformance,
+  Filter,
+  Pagination,
+  Table,
+  useBreadcrumb,
+} from '@cfafrica/ui-web';
 import React from 'react';
+import { collectionService } from '../../../../services';
 
 type Item = {
   date: string;
@@ -40,6 +47,10 @@ export function CollectionDailyReport() {
     '/collection/performance-management/daily'
   );
 
+  const { data: collectors } = useApi<Record<string, string>>(
+    '/admin/collection/collectors'
+  );
+
   return (
     <>
       <Filter
@@ -66,6 +77,21 @@ export function CollectionDailyReport() {
           },
         ]}
       />
+
+      <div className="flex gap-2.5">
+        <CollectionDailyPerformance
+          collectors={collectors}
+          onSubmit={async (data) => {
+            const result = await collectionService.generateDailyPerformance(
+              data
+            );
+            if (result.success) {
+              refetch();
+            }
+            return result;
+          }}
+        />
+      </div>
 
       <Table
         error={error}

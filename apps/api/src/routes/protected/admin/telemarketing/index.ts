@@ -1,6 +1,6 @@
-import { CustomerType } from '../../../../types';
 import express from 'express';
 import multer, { Multer } from 'multer';
+import { CustomerType } from '../../../../types';
 import { TelemarketingController } from './controller';
 
 const telemarketingRouter = express.Router();
@@ -14,9 +14,17 @@ telemarketingRouter.get(
   '/performance-management/monthly',
   telemarketingController.getMonthlyPerformance
 );
+telemarketingRouter.post(
+  '/performance-management/monthly',
+  telemarketingController.generateMonthlyPerformance
+);
 telemarketingRouter.get(
   '/performance-management/daily',
   telemarketingController.getDailyPerformance
+);
+telemarketingRouter.post(
+  '/performance-management/daily',
+  telemarketingController.generateDailyPerformance
 );
 telemarketingRouter.get(
   '/performance-management/team-monthly',

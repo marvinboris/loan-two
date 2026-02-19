@@ -60,7 +60,7 @@ export const authorize = (
       //       !(req.path.split('/')[1] in Object(user.groups.features))))
       // )
     ) {
-      if ('groups' in user)
+      if (user && 'groups' in user)
         console.log(req.path, req.path.split('/')[1], user.groups?.features);
       return res.status(403).json({ success: false, message: 'Forbidden' });
     }

@@ -1,6 +1,13 @@
-import { usePaginatedApi } from '@cfafrica/hooks';
-import { Filter, Pagination, Table, useBreadcrumb } from '@cfafrica/ui-web';
+import { useApi, usePaginatedApi } from '@cfafrica/hooks';
+import {
+  CollectionMonthlyPerformance,
+  Filter,
+  Pagination,
+  Table,
+  useBreadcrumb,
+} from '@cfafrica/ui-web';
 import React from 'react';
+import { collectionService } from '../../../../services';
 
 type Item = {
   dateRange: string;
@@ -32,6 +39,10 @@ export function CollectionMonthlyReport() {
     '/collection/performance-management/monthly'
   );
 
+  const { data: collectors } = useApi<Record<string, string>>(
+    '/admin/collection/collectors'
+  );
+
   return (
     <>
       <Filter
@@ -58,6 +69,21 @@ export function CollectionMonthlyReport() {
           },
         ]}
       />
+
+      <div className="flex gap-2.5">
+        <CollectionMonthlyPerformance
+          collectors={collectors}
+          onSubmit={async (data) => {
+            const result = await collectionService.generateMonthlyPerformance(
+              data
+            );
+            if (result.success) {
+              refetch();
+            }
+            return result;
+          }}
+        />
+      </div>
 
       <Table
         error={error}

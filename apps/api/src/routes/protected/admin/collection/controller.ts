@@ -1,11 +1,11 @@
+import { Request, Response, NextFunction } from 'express';
+import { validationResult } from 'express-validator';
+import moment from 'moment';
 import {
   ConnectionStatus,
   LoanStatus,
   WillingnessToPay,
 } from '../../../../types';
-import { Request, Response, NextFunction } from 'express';
-import { validationResult } from 'express-validator';
-import moment from 'moment';
 import { supabase } from '../../../../lib';
 import { filter } from '../../../../utils';
 import { DistributionInput } from './interfaces';
@@ -77,6 +77,27 @@ export class CollectionController {
     }
   }
 
+  async generateMonthlyPerformance(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const result = await collectionService.generateMonthlyPerformance(
+        req.body
+      );
+
+      res.status(result.success ? 200 : 400).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getDailyPerformance(req: Request, res: Response, next: NextFunction) {
     try {
       const errors = validationResult(req);
@@ -143,6 +164,25 @@ export class CollectionController {
         items,
         total,
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async generateDailyPerformance(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const result = await collectionService.generateDailyPerformance(req.body);
+
+      res.status(result.success ? 200 : 400).json(result);
     } catch (error) {
       next(error);
     }

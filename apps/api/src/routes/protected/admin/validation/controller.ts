@@ -16,7 +16,9 @@ import {
   KycValidationInput,
   UnblockClientInput,
 } from './interfaces';
-import { validationService } from './service';
+import { ValidationService } from './service';
+
+const validationService = new ValidationService();
 
 export class ValidationController {
   async getKyc(req: Request, res: Response, next: NextFunction) {

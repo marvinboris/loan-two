@@ -1,10 +1,4 @@
-import {
-  CustomerType,
-  KycStatus,
-  Loan,
-  LoanStatus,
-  TradingStatus,
-} from '../../../../types';
+import moment from 'moment';
 import {
   BorrowCancellationInput,
   BorrowRepaymentInput,
@@ -12,12 +6,18 @@ import {
   KycValidationInput,
   UnblockClientInput,
 } from './interfaces';
-import moment from 'moment';
 import { config } from '../../../../config';
 import { supabase } from '../../../../lib';
-import { calculatePenalty, payCustomer, sendSms } from '../../../../utils';
+import {
+  CustomerType,
+  KycStatus,
+  Loan,
+  LoanStatus,
+  TradingStatus,
+} from '../../../../types';
+import { calculatePenalty, sendSms } from '../../../../utils';
 
-export const validationService = {
+export class ValidationService {
   async kycValidation(input: KycValidationInput) {
     const { data: kyc, error } = await supabase
       .from('kyc')
@@ -41,6 +41,20 @@ export const validationService = {
           name: [kyc.first_name, kyc.last_name].filter(Boolean).join(' '),
         })
         .eq('id', kyc.customer_id);
+    else {
+      const loan = await supabase
+        .from('loans')
+        .select('id')
+        .eq('customer_id', kyc.customer_id)
+        .eq('loan_status', LoanStatus.PENDING)
+        .single();
+      if (loan.data)
+        await this.borrowValidation({
+          id: loan.data.id,
+          validated: false,
+          reason: 'Your KYC application has been denied.',
+        });
+    }
 
     if (error)
       return {
@@ -48,7 +62,7 @@ export const validationService = {
         message: 'KYC validation response not submitted',
       };
 
-    let message;
+    let message: string;
     if (input.validated) message = 'Your KYC request has been validated.';
     else
       message =
@@ -67,7 +81,7 @@ export const validationService = {
       success: true,
       message: 'KYC validation response submitted successfully',
     };
-  },
+  }
 
   async borrowValidation(input: BorrowValidationInput) {
     const { data: loan, error: loanError } = await supabase
@@ -172,7 +186,7 @@ export const validationService = {
       success: true,
       message: 'Borrow validation response submitted successfully',
     };
-  },
+  }
 
   async borrowCancellation(input: BorrowCancellationInput) {
     const { error } = await supabase
@@ -192,7 +206,7 @@ export const validationService = {
       success: true,
       message: 'Borrow cancellation response submitted successfully',
     };
-  },
+  }
 
   async borrowRepayment(input: BorrowRepaymentInput) {
     const loan = await supabase
@@ -273,7 +287,7 @@ export const validationService = {
       success: true,
       message: 'Borrow cancellation response submitted successfully',
     };
-  },
+  }
 
   async unblockClient(input: UnblockClientInput) {
     const { error } = await supabase
@@ -293,5 +307,5 @@ export const validationService = {
       success: true,
       message: 'Client unblocked successfully',
     };
-  },
-};
+  }
+}

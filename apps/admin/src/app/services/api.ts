@@ -1,11 +1,15 @@
 import {
   BorrowFormValues,
   CancelBorrowFormValues,
+  CollectionDailyPerformanceFormValues,
+  CollectionMonthlyPerformanceFormValues,
   DistributionFormValues,
   KycFormValues,
   ManualAssignmentFormValues,
   ReleaseFormValues,
   RepayBorrowFormValues,
+  TelemarketingDailyPerformanceFormValues,
+  TelemarketingMonthlyPerformanceFormValues,
   UnblockClientFormValues,
 } from '@cfafrica/ui-web';
 import { authState$, getHttpClient } from '@cfafrica/utils';
@@ -80,6 +84,30 @@ export const authService = {
 
 // Service pour le telemarketing
 export const telemarketingService = {
+  async generateMonthlyPerformance(
+    credentials: TelemarketingMonthlyPerformanceFormValues
+  ) {
+    const httpClient = getHttpClient();
+    const result = await httpClient.post<Response>(
+      '/admin/telemarketing/performance-management/monthly',
+      credentials
+    );
+
+    return result;
+  },
+
+  async generateDailyPerformance(
+    credentials: TelemarketingDailyPerformanceFormValues
+  ) {
+    const httpClient = getHttpClient();
+    const result = await httpClient.post<Response>(
+      '/admin/telemarketing/performance-management/daily',
+      credentials
+    );
+
+    return result;
+  },
+
   dataImport: (type: 'new' | 'old' | 'registered') => async (formData: any) => {
     const httpClient = getHttpClient();
     const results = await httpClient.post<Response>(
@@ -124,6 +152,30 @@ export const telemarketingService = {
 
 // Service pour la collection
 export const collectionService = {
+  async generateMonthlyPerformance(
+    credentials: CollectionMonthlyPerformanceFormValues
+  ) {
+    const httpClient = getHttpClient();
+    const result = await httpClient.post<Response>(
+      '/admin/collection/performance-management/monthly',
+      credentials
+    );
+
+    return result;
+  },
+
+  async generateDailyPerformance(
+    credentials: CollectionDailyPerformanceFormValues
+  ) {
+    const httpClient = getHttpClient();
+    const result = await httpClient.post<Response>(
+      '/admin/collection/performance-management/daily',
+      credentials
+    );
+
+    return result;
+  },
+
   async distribution(credentials: DistributionFormValues) {
     const httpClient = getHttpClient();
     const result = await httpClient.post<Response>(

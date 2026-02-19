@@ -1,6 +1,13 @@
-import { usePaginatedApi } from '@cfafrica/hooks';
-import { Filter, Pagination, Table, useBreadcrumb } from '@cfafrica/ui-web';
+import { useApi, usePaginatedApi } from '@cfafrica/hooks';
+import {
+  Filter,
+  Pagination,
+  Table,
+  TelemarketingDailyPerformance,
+  useBreadcrumb,
+} from '@cfafrica/ui-web';
 import React from 'react';
+import { telemarketingService } from '../../../../services';
 
 type Item = {
   date: string;
@@ -40,6 +47,10 @@ export function TelemarketingDailyReport() {
     '/telemarketing/performance-management/daily'
   );
 
+  const { data: telemarketers } = useApi<Record<string, string>>(
+    '/admin/telemarketing/telemarketers'
+  );
+
   return (
     <>
       <Filter
@@ -66,6 +77,21 @@ export function TelemarketingDailyReport() {
           },
         ]}
       />
+
+      <div className="flex gap-2.5">
+        <TelemarketingDailyPerformance
+          telemarketers={telemarketers}
+          onSubmit={async (data) => {
+            const result = await telemarketingService.generateDailyPerformance(
+              data
+            );
+            if (result.success) {
+              refetch();
+            }
+            return result;
+          }}
+        />
+      </div>
 
       <Table
         error={error}

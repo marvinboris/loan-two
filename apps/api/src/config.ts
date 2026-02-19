@@ -15,6 +15,7 @@ export const config = {
   nexah: {
     user: process.env.NEXAH_USER,
     password: process.env.NEXAH_PASSWORD,
+    test: process.env.NEXAH_TEST === 'true',
   },
 
   twilio: {

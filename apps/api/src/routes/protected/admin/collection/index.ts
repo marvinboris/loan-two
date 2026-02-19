@@ -10,9 +10,17 @@ collectionRouter.get(
   '/performance-management/monthly',
   collectionController.getMonthlyPerformance
 );
+collectionRouter.post(
+  '/performance-management/monthly',
+  collectionController.generateMonthlyPerformance
+);
 collectionRouter.get(
   '/performance-management/daily',
   collectionController.getDailyPerformance
+);
+collectionRouter.post(
+  '/performance-management/daily',
+  collectionController.generateDailyPerformance
 );
 collectionRouter.get(
   '/performance-management/team-monthly',

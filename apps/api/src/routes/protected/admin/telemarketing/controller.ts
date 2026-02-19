@@ -1,12 +1,12 @@
+import { Request, Response, NextFunction } from 'express';
+import { validationResult } from 'express-validator';
+import { supabase } from '../../../../lib';
 import {
   CustomerType,
   Kyc,
   KycStatus,
   PerformanceType,
 } from '../../../../types';
-import { Request, Response, NextFunction } from 'express';
-import { validationResult } from 'express-validator';
-import { supabase } from '../../../../lib';
 import { filter } from '../../../../utils';
 import { ManualAssignmentInput, ReleaseInput } from './interfaces';
 import { telemarketingService } from './service';
@@ -70,6 +70,27 @@ export class TelemarketingController {
         items,
         total,
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async generateMonthlyPerformance(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const result = await telemarketingService.generateMonthlyPerformance(
+        req.body
+      );
+
+      res.status(result.success ? 200 : 400).json(result);
     } catch (error) {
       next(error);
     }
@@ -141,6 +162,27 @@ export class TelemarketingController {
         items,
         total,
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async generateDailyPerformance(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const result = await telemarketingService.generateDailyPerformance(
+        req.body
+      );
+
+      res.status(result.success ? 200 : 400).json(result);
     } catch (error) {
       next(error);
     }
