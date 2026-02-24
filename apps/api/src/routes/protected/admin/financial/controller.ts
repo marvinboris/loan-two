@@ -330,7 +330,7 @@ export class FinancialController {
       }
 
       // Construire la requête avec jointures
-      let query = supabase.from('transactions').select(
+      const query = supabase.from('transactions').select(
         `
           *
         `,

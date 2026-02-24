@@ -36,7 +36,7 @@ export class BorrowController {
       const validAccount =
         '237 ' + customer.mobile.replace('+', '').substring(3);
 
-      let account = customer.account;
+      const account = customer.account;
       if (account !== validAccount) {
         const { error } = await supabase
           .from('customers')

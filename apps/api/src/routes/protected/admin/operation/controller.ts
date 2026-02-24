@@ -165,7 +165,7 @@ export class OperationController {
 
   async getGroups(req: Request, res: Response, next: NextFunction) {
     try {
-      let query = supabase.from('groups').select('*', { count: 'exact' });
+      const query = supabase.from('groups').select('*', { count: 'exact' });
 
       const total = (await query).count;
       const [from, to] = filter(req.query);

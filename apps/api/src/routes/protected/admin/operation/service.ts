@@ -81,12 +81,12 @@ export const operationService = {
   },
 
   async editAccount(id: number, input: EditAccountInput) {
-    let {
+    let password = input.password;
+    const {
       email,
       account, // Alias pour email
       workNum,
       name,
-      password,
       entryTime,
       group,
       weights,
@@ -174,7 +174,7 @@ export const operationService = {
   },
 
   async editGroup(id: number, input: EditGroupInput) {
-    let { name, features } = input;
+    const { name, features } = input;
 
     // Modifier l'utilisateur
     const { error: updateError } = await supabase

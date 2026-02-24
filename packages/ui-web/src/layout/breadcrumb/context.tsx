@@ -5,6 +5,7 @@ const Context = React.createContext<{
   setBreadcrumb: React.Dispatch<React.SetStateAction<string[] | undefined>>;
 }>({
   breadcrumb: undefined,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setBreadcrumb: () => {},
 });
 

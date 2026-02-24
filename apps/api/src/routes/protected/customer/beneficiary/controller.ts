@@ -17,7 +17,7 @@ export class BeneficiaryController {
 
       const validAccount = '237 ' + data.mobile.replace('+', '').substring(3);
 
-      let account = data.account;
+      const account = data.account;
       if (account !== validAccount) {
         const { error } = await supabase
           .from('customers')
