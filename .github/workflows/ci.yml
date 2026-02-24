@@ -192,12 +192,11 @@ jobs:
         run: pnpm nx build admin
 
       - name: Deploy to Firebase
-        uses: w9jds/firebase-action@v2
+        uses: firebase/firebase-tools-release@v1
         with:
           args: deploy --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          PROJECT_PATH: 'apps/admin'
 
   release:
     name: Release
