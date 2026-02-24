@@ -192,7 +192,7 @@ jobs:
         run: pnpm nx build admin
 
       - name: Deploy to Firebase
-        uses: firebase/firebase-tools-release@v1
+        uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting
         env:
