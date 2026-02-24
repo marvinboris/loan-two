@@ -264,12 +264,18 @@ importers:
       '@semantic-release/changelog':
         specifier: ^6.0.3
         version: 6.0.3(semantic-release@25.0.3(typescript@5.8.3))
+      '@semantic-release/commit-analyzer':
+        specifier: ^13.0.0
+        version: 13.0.1(semantic-release@25.0.3(typescript@5.8.3))
       '@semantic-release/git':
         specifier: ^10.0.1
         version: 10.0.1(semantic-release@25.0.3(typescript@5.8.3))
       '@semantic-release/github':
         specifier: ^12.0.6
         version: 12.0.6(semantic-release@25.0.3(typescript@5.8.3))
+      '@semantic-release/release-notes-generator':
+        specifier: ^14.0.0
+        version: 14.1.0(semantic-release@25.0.3(typescript@5.8.3))
       '@swc-node/register':
         specifier: ~1.9.1
         version: 1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.8.3)
@@ -450,9 +456,6 @@ importers:
       vite-plugin-dts:
         specifier: ~4.5.0
         version: 4.5.4(@types/node@20.19.25)(rollup@4.53.3)(typescript@5.8.3)(vite@6.4.1(@types/node@20.19.25)(jiti@2.4.2)(less@4.4.2)(lightningcss@1.27.0)(sass-embedded@1.93.3)(sass@1.94.2)(stylus@0.64.0)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
-      vitest:
-        specifier: ^3.0.0
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.25)(@vitest/ui@3.2.4)(jiti@2.4.2)(jsdom@22.1.0)(less@4.4.2)(lightningcss@1.27.0)(sass-embedded@1.93.3)(sass@1.94.2)(stylus@0.64.0)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 
   apps/admin: {}
 
