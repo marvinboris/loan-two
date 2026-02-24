@@ -16,5 +16,19 @@
     "**/*.spec.jsx",
     "src/test-setup.ts"
   ],
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "references": [
+    {
+      "path": "../../packages/utils"
+    },
+    {
+      "path": "../../packages/types"
+    },
+    {
+      "path": "../../packages/ui"
+    },
+    {
+      "path": "../../packages/hooks"
+    }
+  ]
 }
