@@ -7,13 +7,22 @@
       "main",
       "develop"
     ],
+    "repositoryUrl": "https://github.com/marvinboris/loan-two",
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       "@semantic-release/changelog",
-      "@semantic-release/github",
-      "@semantic-release/git"
+      [
+        "@semantic-release/github",
+        {
+          "assets": [],
+          "releasedLabels": "released"
+        }
+      ]
     ]
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "test": "nx run-many -t test --coverage",
