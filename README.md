@@ -68,3 +68,5 @@ pnpm build-telemarketing
 # Deploy
 pnpm deploy-admin    # Deploy admin to Firebase
 ```
+
+test
