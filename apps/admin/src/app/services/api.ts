@@ -16,6 +16,17 @@ import { authState$, getHttpClient } from '@cfafrica/utils';
 
 type Response = { message: string; success: boolean };
 
+type ImportReport = {
+  total: number;
+  success: number;
+  duplicates: number;
+  invalid: number;
+  errors: number;
+  details: unknown[];
+};
+
+type ImportResponse = Response & { report?: ImportReport };
+
 // Service pour les opérations d'authentification
 export const authService = {
   async login(credentials: { email: string; password: string }) {
@@ -110,7 +121,7 @@ export const telemarketingService = {
 
   dataImport: (type: 'new' | 'old' | 'registered') => async (formData: any) => {
     const httpClient = getHttpClient();
-    const results = await httpClient.post<Response>(
+    const results = await httpClient.post<ImportResponse>(
       '/admin/telemarketing/' +
         {
           new: 'new-customers',

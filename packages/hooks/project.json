@@ -4,6 +4,23 @@
   "sourceRoot": "packages/hooks/src",
   "projectType": "library",
   "tags": [],
-  "// targets": "to see all targets run: nx show project hooks --web",
-  "targets": {}
+  "targets": {
+    "test": {
+      "inputs": ["default", "^production"],
+      "outputs": ["!{projectRoot}/coverage"],
+      "options": {
+        "passWithNoTests": true,
+        "coverage": true,
+        "coverageDirectory": "coverage",
+        "coverageThreshold": {
+          "global": {
+            "branches": 70,
+            "functions": 70,
+            "lines": 70,
+            "statements": 70
+          }
+        }
+      }
+    }
+  }
 }

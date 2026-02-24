@@ -59,6 +59,8 @@ export function TelemarketingRegisteredCustomers() {
     if (result.success) {
       refetch();
       toastShow({ type: 'success', text: result.message });
+    } else {
+      toastShow({ type: 'error', text: result.message });
     }
   };
 

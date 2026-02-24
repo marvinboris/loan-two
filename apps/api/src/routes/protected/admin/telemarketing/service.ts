@@ -216,11 +216,12 @@ export const telemarketingService = {
       return { success: false, message: 'File is empty or wrong formatted' };
     }
 
-    await processCustomers(type)(rows);
+    const report = await processCustomers(type)(rows);
 
     return {
       success: true,
-      message: 'The file has been successfully imported',
+      message: `Imported ${report.success} customers. ${report.duplicates} duplicates skipped, ${report.invalid} invalid.`,
+      report,
     };
   },
 
@@ -435,6 +436,11 @@ function processCustomers(type: CustomerType) {
 
     if (allCustomersMobile.error) throw allCustomersMobile.error;
 
+    const duplicateCount = allCustomersMobile.data.filter(
+      (item) => item.mobile in dataToInsert
+    ).length;
+    report.duplicates = duplicateCount;
+
     allCustomersMobile.data.forEach((item) => {
       if (item.mobile in dataToInsert) delete dataToInsert[item.mobile];
     });
@@ -443,7 +449,12 @@ function processCustomers(type: CustomerType) {
       .from('customers')
       .insert(Object.values(dataToInsert));
 
-    if (error) throw error;
+    if (error) {
+      report.errors++;
+      throw error;
+    }
+
+    report.success = Object.keys(dataToInsert).length;
 
     return report;
   };

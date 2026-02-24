@@ -1,0 +1,4 @@
+{
+  "*.{js,jsx,ts,tsx}": ["nx format:write --"],
+  "*.{json,md,html}": ["prettier --write"]
+}
