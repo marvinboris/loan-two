@@ -375,6 +375,14 @@ export const telemarketingService = {
   },
 };
 
+function normalizeMobile(mobile: string): string {
+  // Supprime +, espaces, tirets
+  const digits = mobile.replace(/[\s\-\+]/g, '');
+  // Ramène tout au format 237XXXXXXXXX
+  if (digits.startsWith('237')) return digits;
+  return '237' + digits;
+}
+
 function processCustomers(type: CustomerType) {
   return async function (rows: object[]) {
     const report = {
@@ -400,12 +408,10 @@ function processCustomers(type: CustomerType) {
       const clientPhoneNumber = values[clientPhoneNumberIdx];
 
       const lineNumber = index + 1;
-      const rowData = {
-        name: clientName?.toString().trim(),
-        mobile: clientPhoneNumber?.toString().trim(),
-      };
+      const rawMobile = clientPhoneNumber?.toString().trim();
+      const rawName = clientName?.toString().trim();
 
-      if (!rowData.mobile) {
+      if (!rawMobile) {
         report.invalid++;
         report.details.push({
           line: lineNumber,
@@ -415,10 +421,23 @@ function processCustomers(type: CustomerType) {
         continue;
       }
 
-      dataToInsert[rowData.mobile] = {
-        name: rowData.name,
-        mobile: rowData.mobile,
-        account: '237 ' + rowData.mobile.replace('+', '').substring(3),
+      const normalizedMobile = normalizeMobile(rawMobile);
+
+      // Doublon dans le fichier Excel lui-même
+      if (normalizedMobile in dataToInsert) {
+        report.duplicates++;
+        report.details.push({
+          line: lineNumber,
+          status: 'duplicate',
+          message: `Mobile ${normalizedMobile} appears more than once in the file`,
+        });
+        continue;
+      }
+
+      dataToInsert[normalizedMobile] = {
+        name: rawName,
+        mobile: normalizedMobile,
+        account: '237 ' + normalizedMobile.substring(3),
         type,
         app_name: config.appName,
         whether_apply: false,
@@ -441,7 +460,7 @@ function processCustomers(type: CustomerType) {
 
     if (fetchError) throw fetchError;
 
-    report.duplicates = existingCustomers?.length ?? 0;
+    report.duplicates += existingCustomers?.length ?? 0;
 
     existingCustomers?.forEach((item) => {
       delete dataToInsert[item.mobile];
