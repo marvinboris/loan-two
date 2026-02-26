@@ -399,13 +399,12 @@ function processCustomers(type: CustomerType) {
       const clientName = values[clientNameIdx];
       const clientPhoneNumber = values[clientPhoneNumberIdx];
 
-      const lineNumber = index + 1; // +1 car Excel commence à 1
+      const lineNumber = index + 1;
       const rowData = {
         name: clientName?.toString().trim(),
         mobile: clientPhoneNumber?.toString().trim(),
       };
 
-      // Validation des données
       if (!rowData.mobile) {
         report.invalid++;
         report.details.push({
@@ -416,12 +415,11 @@ function processCustomers(type: CustomerType) {
         continue;
       }
 
-      // Création du client
       dataToInsert[rowData.mobile] = {
         name: rowData.name,
         mobile: rowData.mobile,
         account: '237 ' + rowData.mobile.replace('+', '').substring(3),
-        type, // Valeur par défaut
+        type,
         app_name: config.appName,
         whether_apply: false,
         whether_assigned: false,
@@ -430,31 +428,37 @@ function processCustomers(type: CustomerType) {
       index++;
     }
 
-    const allCustomersMobile = await supabase
-      .from('customers')
-      .select('mobile');
+    const mobilesToInsert = Object.keys(dataToInsert);
 
-    if (allCustomersMobile.error) throw allCustomersMobile.error;
-
-    const duplicateCount = allCustomersMobile.data.filter(
-      (item) => item.mobile in dataToInsert
-    ).length;
-    report.duplicates = duplicateCount;
-
-    allCustomersMobile.data.forEach((item) => {
-      if (item.mobile in dataToInsert) delete dataToInsert[item.mobile];
-    });
-
-    const { error } = await supabase
-      .from('customers')
-      .insert(Object.values(dataToInsert));
-
-    if (error) {
-      report.errors++;
-      throw error;
+    if (mobilesToInsert.length === 0) {
+      return report;
     }
 
-    report.success = Object.keys(dataToInsert).length;
+    const { data: existingCustomers, error: fetchError } = await supabase
+      .from('customers')
+      .select('mobile')
+      .in('mobile', mobilesToInsert);
+
+    if (fetchError) throw fetchError;
+
+    report.duplicates = existingCustomers?.length ?? 0;
+
+    existingCustomers?.forEach((item) => {
+      delete dataToInsert[item.mobile];
+    });
+
+    const newCustomers = Object.values(dataToInsert);
+
+    if (newCustomers.length > 0) {
+      const { error } = await supabase.from('customers').insert(newCustomers);
+
+      if (error) {
+        report.errors++;
+        throw error;
+      }
+    }
+
+    report.success = newCustomers.length;
 
     return report;
   };
