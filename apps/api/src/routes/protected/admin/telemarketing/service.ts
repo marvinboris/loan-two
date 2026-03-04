@@ -453,27 +453,40 @@ function processCustomers(type: CustomerType) {
       return report;
     }
 
-    const { data: existingCustomers, error: fetchError } = await supabase
-      .from('customers')
-      .select('mobile')
-      .in('mobile', mobilesToInsert);
+    // Batch size for Supabase queries to avoid hitting
+    // PostgREST URL length limits and PostgreSQL parameter limits
+    const DEDUP_BATCH_SIZE = 500;
+    const INSERT_BATCH_SIZE = 500;
 
-    if (fetchError) throw fetchError;
+    // --- Batched deduplication check ---
+    for (let i = 0; i < mobilesToInsert.length; i += DEDUP_BATCH_SIZE) {
+      const batch = mobilesToInsert.slice(i, i + DEDUP_BATCH_SIZE);
+      const { data: existingCustomers, error: fetchError } = await supabase
+        .from('customers')
+        .select('mobile')
+        .in('mobile', batch);
 
-    report.duplicates += existingCustomers?.length ?? 0;
+      if (fetchError) throw fetchError;
 
-    existingCustomers?.forEach((item) => {
-      delete dataToInsert[item.mobile];
-    });
+      report.duplicates += existingCustomers?.length ?? 0;
+
+      existingCustomers?.forEach((item) => {
+        delete dataToInsert[item.mobile];
+      });
+    }
 
     const newCustomers = Object.values(dataToInsert);
 
+    // --- Batched insertion ---
     if (newCustomers.length > 0) {
-      const { error } = await supabase.from('customers').insert(newCustomers);
+      for (let i = 0; i < newCustomers.length; i += INSERT_BATCH_SIZE) {
+        const batch = newCustomers.slice(i, i + INSERT_BATCH_SIZE);
+        const { error } = await supabase.from('customers').insert(batch);
 
-      if (error) {
-        report.errors++;
-        throw error;
+        if (error) {
+          report.errors += batch.length;
+          throw error;
+        }
       }
     }
 
